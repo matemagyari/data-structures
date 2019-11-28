@@ -138,7 +138,7 @@ class DataStructureTest extends FlatSpec with Matchers {
   }
 
   private def verifySameOrderOfMagnitude(computation1: ⇒ Unit, computation2: ⇒ Unit): Unit = {
-    def order(v: Long) = {
+    def order(v: Long): BigDecimal = {
       val result = BigDecimal(Math.log10(v)).setScale(0, RoundingMode.HALF_UP)
       println(s"$v $result")
       result
