@@ -1,14 +1,13 @@
-name := "data-structures"
+import Dependencies._
 
-organization := "home"
+ThisBuild / name := "data-structures"
+ThisBuild / organization := "home.datastructures"
+ThisBuild / scalaVersion := "2.13.6"
+ThisBuild / version := "0.1-SNAPSHOT"
 
-version := "0.1-SNAPSHOT"
+ThisBuild / libraryDependencies ++= testLibs
 
-scalaVersion := "2.12.3"
-
-libraryDependencies ++= {
-  Seq(
-    // Test dependencies
-    "org.scalatest" %% "scalatest" % "3.0.1"
-  )
-}
+ThisBuild / resolvers ++= Seq(
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+  "Default" at "https://repo1.maven.org/maven2"
+)

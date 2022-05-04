@@ -1,6 +1,6 @@
 package home.excercises
 
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 
 object StockPricesTest extends App with Matchers {
 

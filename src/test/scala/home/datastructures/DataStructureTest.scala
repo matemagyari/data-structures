@@ -2,42 +2,47 @@ package home.datastructures
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-import scala.collection.{SeqView, immutable}
+import scala.collection.{IndexedSeqView, SeqView, immutable}
 import scala.collection.immutable.{HashSet, TreeSet}
 import scala.math.BigDecimal.RoundingMode
 import scala.util.Random
 
-class DataStructureTest extends FlatSpec with Matchers {
+class DataStructureTest extends AnyFlatSpec with Matchers {
 
   val times = 100
+
+  val small = 10
+  val middle = 100
+  val big = 10000
+  val biggest = 100000
 
   //no intermediate results if views transformed multiple times
   "Views" should "be lazy" in {
 
-    val v: SeqView[Int, immutable.IndexedSeq[Int]] = (1 to 10).view
+    val v: IndexedSeqView[Int] = (1 to 10).view
 
     val counter = new AtomicInteger()
 
     //map is lazy on the view
-    val v2: SeqView[Int, Seq[_]] = v.map { i ⇒
+    val v2: IndexedSeqView[Int] = v.map { i ⇒
       counter.incrementAndGet()
       i + 10
     }
     counter.get shouldBe 0
 
-    val v3: Seq[Int] = v2.force
+    val v3: Seq[Int] = v2.toSeq
     counter.get shouldBe 10
     v3 shouldBe (11 to 20)
-
   }
 
   "Iterators" should "be lazy" in {
 
     def doNothing(a: Any) = {}
 
-    val it: Iterator[Int] = (1 to 1000).toIterator
+    val it: Iterator[Int] = (1 to middle).toIterator
 
     val counter = new AtomicInteger()
     val it2 = it.map { i ⇒
@@ -56,8 +61,8 @@ class DataStructureTest extends FlatSpec with Matchers {
 
   "List" should "take constant time for add/remove head" in {
 
-    val list1 = (1 to 1000).toList
-    val list2 = (1 to 1000000).toList
+    val list1 = (1 to middle).toList
+    val list2 = (1 to biggest).toList
 
     def time1 = avgTime {
       0 +: list1
@@ -73,8 +78,8 @@ class DataStructureTest extends FlatSpec with Matchers {
 
   "List" should "take linear time for add/remove element at the end" in {
 
-    val list1 = (1 to 100).toList
-    val list2 = (1 to 10000000).toList
+    val list1 = (1 to small).toList
+    val list2 = (1 to biggest).toList
 
     def time1 = avgTime {
       list1 :+ 0
@@ -99,7 +104,7 @@ class DataStructureTest extends FlatSpec with Matchers {
         acc + key
       }
 
-    val s1 = createSet(100)
+    val s1 = createSet(small)
     val s2 = createSet(100000)
 
     verifySameOrderOfMagnitude(
@@ -120,8 +125,8 @@ class DataStructureTest extends FlatSpec with Matchers {
         acc + key
       }
 
-    val s1 = createSet(1000)
-    val s2 = createSet(1000000)
+    val s1 = createSet(middle)
+    val s2 = createSet(biggest)
 
     def comp1 = { s1.contains(s1.size / 2) }
     def comp2 = { s2.contains(s2.size / 2) }

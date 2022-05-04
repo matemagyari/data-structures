@@ -1,16 +1,18 @@
 package home.datastructures
 
 import home.datastructures.BinaryTree._
-import org.scalatest.{FlatSpec, Matchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.collection.immutable._
 import BinarySearchTree._
 
-class BinarySearchTreeTest extends FlatSpec with Matchers with OptionValues {
+class BinarySearchTreeTest extends AnyFlatSpec with Matchers with OptionValues {
 
 //  tree
 //  ----
-//             4    <-- root
+//             4    <-- rootx
 //          /     \
 //        1        6
 //         \     /   \

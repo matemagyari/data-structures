@@ -1,6 +1,6 @@
 package home.excercises
 
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 
 //https://www.interviewcake.com/question/python/find-duplicate-optimize-for-space
 object FindDuplicateTest extends App with Matchers {

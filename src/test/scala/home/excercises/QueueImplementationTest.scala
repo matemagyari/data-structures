@@ -1,6 +1,7 @@
 package home.excercises
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.collection.mutable
 
@@ -34,7 +35,7 @@ class MyQueueWith2Stacks[T]() extends MyQueue[T] {
   }
 }
 
-class QueueImplementationTest extends FlatSpec with Matchers {
+class QueueImplementationTest extends AnyFlatSpec with Matchers {
 
   "Queue" should "work" in {
 

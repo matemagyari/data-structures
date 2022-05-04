@@ -1,10 +1,11 @@
 package home.excercises
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.annotation.tailrec
 
-class MergeSortedListsTest extends FlatSpec with Matchers {
+class MergeSortedListsTest extends AnyFlatSpec with Matchers {
 
   @tailrec
   private def merge(
