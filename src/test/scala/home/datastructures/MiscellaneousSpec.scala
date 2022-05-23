@@ -4,12 +4,16 @@ import org.scalatest.OptionValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
+import scala.annotation.tailrec
+
 class MiscellaneousSpec extends AnyFlatSpec with Matchers with OptionValues {
 
   "FizzBuzz" should "work" in {
     def fb(n: Int): String = {
       def div3 = n % 3 == 0
+
       def div5 = n % 5 == 0
+
       if (div3 && div5)
         "FizzBuzz"
       else if (div3)
@@ -27,7 +31,7 @@ class MiscellaneousSpec extends AnyFlatSpec with Matchers with OptionValues {
   "Count primes" should "work" in {
     def isPrime(n: Int, primes: List[Int]): Boolean = {
       !primes
-//        .forall { prime => prime * prime > n || n % prime != 0 }
+        //        .forall { prime => prime * prime > n || n % prime != 0 }
         .exists { prime => prime * prime <= n && n % prime == 0 }
     }
 
@@ -36,21 +40,21 @@ class MiscellaneousSpec extends AnyFlatSpec with Matchers with OptionValues {
       def helper(num: Int, primes: List[Int]): List[Int] =
         if (num >= n) primes
         else {
-//          if (num % 10000 == 0) println(s"Hello $num")
-          val updatedPrimes = if (isPrime(num, primes)) primes ++ List(num)  else primes
-          helper(num+1, updatedPrimes)
+          //          if (num % 10000 == 0) println(s"Hello $num")
+          val updatedPrimes = if (isPrime(num, primes)) primes ++ List(num) else primes
+          helper(num + 1, updatedPrimes)
         }
 
       helper(2, List.empty).size
 
       // iterative solution
-//      val foundPrimes = scala.collection.mutable.Set.empty[Int]
-//      (2 until n).foreach { num =>
-//        if (isPrime(num, foundPrimes.toSet)) {
-//          foundPrimes += num
-//        }
-//      }
-//      foundPrimes.size
+      //      val foundPrimes = scala.collection.mutable.Set.empty[Int]
+      //      (2 until n).foreach { num =>
+      //        if (isPrime(num, foundPrimes.toSet)) {
+      //          foundPrimes += num
+      //        }
+      //      }
+      //      foundPrimes.size
     }
 
     countPrimes(2) shouldBe 0
@@ -130,7 +134,9 @@ class MiscellaneousSpec extends AnyFlatSpec with Matchers with OptionValues {
 
     def hammingWeight(n: Int): Int = {
 
-      var currentNum = if (n >= 0) n else { println(s"Negative number [$n]");Math.abs(Integer.MIN_VALUE -n) }
+      var currentNum = if (n >= 0) n else {
+        println(s"Negative number [$n]"); Math.abs(Integer.MIN_VALUE - n)
+      }
 
       val len = (Math.log(currentNum) / Math.log(2)).toInt + 1
       val result = new Array[Int](len)
@@ -208,10 +214,27 @@ class MiscellaneousSpec extends AnyFlatSpec with Matchers with OptionValues {
       r.remove(1) shouldBe true
       r.getRandom() shouldBe 2
     }
-
-
   }
 
+  "Find majority element" should "run in O(1) time" in {
+
+    def majorityElement(nums: Array[Int]): Int = {
+
+      @tailrec
+      def helper(ns: List[Int], m: Map[Int, Int] = Map.empty): Map[Int, Int] =
+        ns match {
+          case Nil => m
+          case head +: tail =>
+            val newM = m + (head -> (m.getOrElse(head, 0) + 1))
+            helper(tail, newM)
+        }
+
+      helper(nums.toList).maxBy(_._2)._1
+
+    }
+
+    majorityElement(Array(2, 2, 1, 1, 1, 2, 2)) shouldBe 2
+  }
 
 
 }
